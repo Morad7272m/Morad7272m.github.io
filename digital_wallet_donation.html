@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>درگاه حمایت ارز دیجیتال</title>
+  <style>
+    body {
+      font-family: Tahoma, sans-serif;
+      background-color: #0d0d0d;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      direction: rtl;
+    }
+    h1 {
+      color: #00ffc3;
+    }
+    .wallet {
+      background: #1e1e1e;
+      margin: 1.5rem auto;
+      padding: 1rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+    }
+    .wallet h2 {
+      color: #ffd700;
+    }
+    .address {
+      background: #2c2c2c;
+      padding: 0.5rem;
+      border-radius: 6px;
+      margin: 0.5rem 0;
+      direction: ltr;
+    }
+    .btn {
+      background: #00ffc3;
+      color: black;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 1rem;
+    }
+    img {
+      background: white;
+      padding: 6px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>حمایت مالی با ارز دیجیتال</h1>
+
+  <div class="wallet">
+    <h2>تتر (USDT)</h2>
+    <p id="usdt-price">قیمت: در حال بارگذاری...</p>
+    <div class="address" id="usdt-address">TFJo3LQNAtNcZJDymaCPWspB5FP8Kf4eb6</div>
+    <button class="btn" onclick="copy('usdt-address')">کپی آدرس</button>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?data=TFJo3LQNAtNcZJDymaCPWspB5FP8Kf4eb6&size=150x150" />
+  </div>
+
+  <div class="wallet">
+    <h2>بیت‌کوین (BTC)</h2>
+    <p id="btc-price">قیمت: در حال بارگذاری...</p>
+    <div class="address" id="btc-address">bc1qyzy9uxmkst8f2kcxzdtqktp4v920sdyktt8gea</div>
+    <button class="btn" onclick="copy('btc-address')">کپی آدرس</button>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?data=bc1qyzy9uxmkst8f2kcxzdtqktp4v920sdyktt8gea&size=150x150" />
+  </div>
+
+  <div class="wallet">
+    <h2>اتریوم (ETH)</h2>
+    <p id="eth-price">قیمت: در حال بارگذاری...</p>
+    <div class="address" id="eth-address">0x187555A994bAC0564789A18cC27b96AF67d448ff</div>
+    <button class="btn" onclick="copy('eth-address')">کپی آدرس</button>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?data=0x187555A994bAC0564789A18cC27b96AF67d448ff&size=150x150" />
+  </div>
+
+  <div class="wallet">
+    <h2>سولانا (SOL)</h2>
+    <p id="sol-price">قیمت: در حال بارگذاری...</p>
+    <div class="address" id="sol-address">HdwGLRM5UFtzjLCWujnLMBRpG4SmYKVHHUs7PdQkKESL</div>
+    <button class="btn" onclick="copy('sol-address')">کپی آدرس</button>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?data=HdwGLRM5UFtzjLCWujnLMBRpG4SmYKVHHUs7PdQkKESL&size=150x150" />
+  </div>
+
+  <div class="wallet">
+    <h2>تون (TON)</h2>
+    <p id="ton-price">قیمت: در حال بارگذاری...</p>
+    <div class="address" id="ton-address">UQC9zAqzuzETSlid05cv8vQdrV95X9pNgKEEdJU-t0gtR3tw</div>
+    <button class="btn" onclick="copy('ton-address')">کپی آدرس</button>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?data=UQC9zAqzuzETSlid05cv8vQdrV95X9pNgKEEdJU-t0gtR3tw&size=150x150" />
+  </div>
+
+  <script>
+    async function loadPrices() {
+      try {
+        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=tether,bitcoin,ethereum,solana,toncoin&vs_currencies=usd');
+        const data = await res.json();
+        document.getElementById('usdt-price').innerText = `قیمت: $${data.tether.usd}`;
+        document.getElementById('btc-price').innerText = `قیمت: $${data.bitcoin.usd}`;
+        document.getElementById('eth-price').innerText = `قیمت: $${data.ethereum.usd}`;
+        document.getElementById('sol-price').innerText = `قیمت: $${data.solana.usd}`;
+        document.getElementById('ton-price').innerText = `قیمت: $${data.toncoin.usd}`;
+      } catch {
+        const items = ['usdt-price','btc-price','eth-price','sol-price','ton-price'];
+        items.forEach(id => document.getElementById(id).innerText = 'قیمت: خطا در دریافت اطلاعات');
+      }
+    }
+    function copy(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text);
+      alert('آدرس کپی شد!');
+    }
+    loadPrices();
+  </script>
+</body>
+</html>
